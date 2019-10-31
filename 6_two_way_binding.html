@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/x-handlebars-template" id="demo">
+    <input value="{{name}}">
+    <h1>Hello {{name}}</h1>
+</script>
+<script>
+    var test = Ractive({
+        el: "#container",
+        template: "#demo",
+        data: {
+            name: ""
+        }
+    });
+</script>
+</body>
+</html>

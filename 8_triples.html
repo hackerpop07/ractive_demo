@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+</head>
+<body>
+<div class="container"></div>
+
+<script type="text/ractive" id="triple-template">
+        <p>Escape data: {{ content }}</p>
+        <p>Not Escape data: {{{ content }}}</p>
+    </script>
+
+<script type="text/javascript">
+    var ractive = Ractive({
+        target: '.container',
+        template: '#triple-template',
+        data: {
+            content: '<strong>Hello world</strong>'
+        }
+    });
+</script>
+</body>
+</html>

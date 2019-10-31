@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script id="demo" type="text/x-handlebars-template">
+    {{ #if (isLogin) }}
+    <p>Ban da dang nhap</p>
+    {{ else }}
+    <p>Ban chua dang nhap</p>
+    {{ /if }}
+
+    {{ #if (number<10) }}
+    <p>{{ number }} la so nho hon 10</p>
+    {{ elseif (number>=10 && number<100) }}
+    <p>{{ number }} la so lon hon or bang 10 va nho hon 100</p>
+    {{ elseif (number > 100 ) }}
+    <p>{{ number }} la so lon hon 100</p>
+    {{ /if }}
+</script>
+<script>
+    var test = Ractive({
+        el: "#container",
+        template: "#demo",
+        data: {
+            isLogin: true,
+            number: 1
+        }
+    })
+</script>
+</body>
+</html>

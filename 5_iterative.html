@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/c0bb5f0510.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script id="demo" type="text/x-handlebars-template">
+    <table class="table">
+        <thead>
+        <tr>
+            <th on-click="@.sortByField('id')">
+                ID
+                <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+            </th>
+            <th on-click="@.sortByField('name')">
+                Name
+                <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+            </th>
+            <th on-click="@.sortByField('email')">
+                Email
+                <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ #each users as user }}
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+        </tr>
+        {{ else }}
+        <tr>
+            ko co du lieu
+        </tr>
+        {{ /each }}
+        </tbody>
+    </table>
+</script>
+<script>
+    var test = Ractive({
+        el: "#container",
+        template: "#demo",
+        data: {
+            users: [
+                {id: 1, name: 'D', email: 'abc121@gmail.com'},
+                {id: 2, name: 'C', email: 'abc122@gmail.com'},
+                {id: 3, name: 'B', email: 'abc123@gmail.com'},
+                {id: 4, name: 'A', email: 'abc124@gmail.com'}
+            ]
+        },
+        sortByField: function (column) {
+            var users = this.get("users");
+            users.sort(function (a, b) {
+                console.log(a[column] > b[column]);
+                return a[column] > b[column] ? -1 : 1;
+            });
+            this.set("users", users);
+        }
+    })
+
+</script>
+</body>
+</html>

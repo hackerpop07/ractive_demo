@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div id="app"></div>
+<script type="text/x-handlebars-template" id="template">
+    <div class="container">
+        <h1 style="color: {{color}}">{{greeting}}, my nam is {{name}}</h1>
+        <ul>
+            {{ #if (showAddress) }}
+            {{ #address }}
+            <li>{{street}}</li>
+            <li>{{city}}</li>
+            {{ /address }}
+            {{ else }}
+            <p>Address hidden</p>
+            {{ /if }}
+        </ul>
+        <button on-click="showAddress">
+            {{ #if (showAddress) }}
+            hiddenAddress
+            {{ else }}
+            showAddress
+            {{ /if }}
+        </button>
+
+        <users/>
+
+    </div>
+</script>
+<script id="users" type="text/x-handlebars-template">
+    <h1>Table</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{ #users: i }}
+        <tr>
+            <td>{{++i}}</td>
+            <td>{{name}}</td>
+            <td>{{age}}</td>
+        </tr>
+        {{ /users }}
+        </tbody>
+    </table>
+    <form on-submit="addUser">
+        <input class="form-control" type="text" placeholder="addUsersName" value="{{userName}}">
+        <input class="form-control" type="text" placeholder="addUsersAge" value="{{userAge}}">
+        <input type="submit" value="Submit" class="btn">
+    </form>
+</script>
+
+<script>
+    var Users = Ractive.extend({
+        template: "#users",
+        oninit: function () {
+            this.on("addUser", function () {
+                let newUser = {
+                    name: this.get("userName"),
+                    age: this.get("userAge"),
+                };
+                this.push("users", newUser);
+                this.set("userName", "");
+                this.set("userAge", "");
+
+                return false;
+            })
+        },
+        data: {
+            users: [
+                {
+                    name: "ahiassa1",
+                    age: 45
+                },
+                {
+                    name: "ahiassa2",
+                    age: 45
+                }, {
+                    name: "ahiassa3",
+                    age: 45
+                }, {
+                    name: "ahiassa4",
+                    age: 45
+                },
+            ],
+            userName: "",
+            userAge: ""
+        }
+    });
+
+    var ractive = Ractive({
+        el: "#app",
+        template: "#template",
+        components: {
+            users: Users,
+        },
+
+        data: {
+            greeting: " Hello Word",
+            name: "Vampire",
+            color: "red",
+            address: {
+                street: "26 Hang bai~",
+                city: " ha noi",
+            },
+            showAddress: false,
+
+        },
+    });
+
+    ractive.on("showAddress", () => {
+        ractive.toggle("showAddress");
+    })
+</script>
+</body>
+</html>

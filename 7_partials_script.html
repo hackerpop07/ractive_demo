@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script id="demo" type="text/x-handlebars-template">
+    {{ #each items as item }}
+            {{ > partial}}
+    {{/each}}
+</script>
+<script id="partial" type="text/x-handlebars-template">
+    <li class-done=".done">
+        <input type="checkbox" checked="{{.done}}">
+        <span class="description">{{ description }}</span>
+    </li>
+</script>
+<script>
+    var test = Ractive({
+        el: "#container",
+        template: "#demo",
+        data: {
+            items: [
+                {done: false, description: '123'},
+                {done: true, description: '456'},
+                {done: true, description: '789'},
+                {done: false, description: '098'},
+                {done: true, description: '997'},
+                {done: false, description: '357'}
+            ]
+        }
+    })
+</script>
+</body>
+</html>

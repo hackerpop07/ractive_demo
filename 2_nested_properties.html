@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/0.9.0-build-116/ractive.min.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script id="template" type="text/x-handlebars-template">
+    {{#country}}
+    <p>Conuntry: {{name}} </p>
+    <p>Population: {{population}} </p>
+    {{#capital}}
+    <p>name: {{name}} </p>
+    <p>lat: {{lat}} </p>
+    <p>long: {{long}} </p>
+    {{/capital}}
+    {{/country}}
+</script>
+
+<script>
+    var demo = Ractive({
+        el: "#container",
+        template: "#template",
+        data: {
+            country: {
+                name: 'Vietnam',
+                population: 9000,
+                capital: {
+                    name: 'Hanoi',
+                    lat: 100,
+                    long: 200
+                }
+            }
+        }
+    });
+    //get country
+    var country = demo.get("country");
+    console.log(country);
+    //set name
+    country.name = "VN";
+    demo.update("country");
+</script>
+
+</body>
+</html>
