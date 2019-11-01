@@ -11,7 +11,7 @@
 <div id="app"></div>
 <script type="text/x-handlebars-template" id="template">
     <div class="container">
-        <h1 style="color: {{color}}">{{greeting}}, my nam is {{name}}</h1>
+        <h1 style="color: {{color}}">{{greeting}}, my name is {{name}}</h1>
         <ul>
             {{ #if (showAddress) }}
             {{ #address }}
@@ -34,6 +34,7 @@
 
     </div>
 </script>
+
 <script id="users" type="text/x-handlebars-template">
     <h1>Table</h1>
     <table class="table">
@@ -42,6 +43,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Age</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -50,13 +52,18 @@
             <td>{{++i}}</td>
             <td>{{name}}</td>
             <td>{{age}}</td>
+            <td>
+                <button class="btn btn-warning" on-click="@this.editUser(i)">Edit</button>
+                <button class="btn btn-danger" on-click="@this.deleteUser(i)">Delete</button>
+            </td>
         </tr>
         {{ /users }}
         </tbody>
     </table>
     <form on-submit="addUser">
-        <input class="form-control" type="text" placeholder="addUsersName" value="{{userName}}">
-        <input class="form-control" type="text" placeholder="addUsersAge" value="{{userAge}}">
+        <input class="form-control" type="text" value="{{userIndex}}" hidden>
+        <input class="form-control" type="text" placeholder="Users Name" value="{{userName}}">
+        <input class="form-control" type="text" placeholder="Users Age" value="{{userAge}}">
         <input type="submit" value="Submit" class="btn">
     </form>
 </script>
@@ -66,36 +73,65 @@
         template: "#users",
         oninit: function () {
             this.on("addUser", function () {
-                let newUser = {
-                    name: this.get("userName"),
-                    age: this.get("userAge"),
-                };
-                this.push("users", newUser);
-                this.set("userName", "");
-                this.set("userAge", "");
-
-                return false;
-            })
+                    let users = this.get("users");
+                    let user = users[this.get("userIndex")];
+                    if (user) {
+                        let newUser = {
+                            name: this.get("userName"),
+                            age: this.get("userAge"),
+                        };
+                        users.splice(this.get("userIndex"), 1, newUser);
+                        this.set("users", users);
+                        this.set("userIndex", "");
+                        this.set("userName", "");
+                        this.set("userAge", "");
+                        return false;
+                    } else {
+                        let newUser = {
+                            name: this.get("userName"),
+                            age: this.get("userAge"),
+                        };
+                        this.push("users", newUser);
+                        this.set("userName", "");
+                        this.set("userAge", "");
+                        return false;
+                    }
+                },
+            )
         },
         data: {
             users: [
                 {
                     name: "ahiassa1",
-                    age: 45
+                    age: 44
                 },
                 {
                     name: "ahiassa2",
                     age: 45
-                }, {
+                },
+                {
                     name: "ahiassa3",
-                    age: 45
-                }, {
+                    age: 46
+                },
+                {
                     name: "ahiassa4",
-                    age: 45
+                    age: 47
                 },
             ],
+            userIndex: "",
             userName: "",
             userAge: ""
+        },
+        editUser: function (i) {
+            let users = this.get("users");
+            this.set("userIndex", i);
+            this.set("userName", users[i].name);
+            this.set("userAge", users[i].age);
+        },
+        deleteUser: function (i) {
+            let users = this.get("users");
+            users.splice(i, 1);
+            this.set("users", users);
         }
     });
 
